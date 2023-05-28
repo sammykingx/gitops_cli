@@ -60,15 +60,16 @@ $ gitops create -n name_of_repo -d "description of the repo"
 
 ```
 HTTP STATUS CODE WHEN IT FAILS
-	| Status code	| Description |
-	| :---:		| :---	      |
-	| 201        	| created the repository |
-	| 304		| not modified |
-	| 400		| Bad request |
-	| 401		| Requires authentication |
-	| 403		| Forbidden |
-	| 404		| Resource not found |
-	| 422		| validation failed |
+
+| Status code	| Description |
+| :-----------:	| :---------- |
+| 201        	| created the repository |
+| 304		| not modified |
+| 400		| Bad request |
+| 401		| Requires authentication |
+| 403		| Forbidden |
+| 404		| Resource not found |
+| 422		| validation failed |
 
 example of successfull repo creation with gitops
 ```bash
@@ -84,12 +85,12 @@ __options__:
 - as of now no options is add to the fetch command
 Just run the command to get a list of all repos.
 
-cexample command usage
+_example command usage_
 ```bash
 $gitops fetch
 ```
 
-NOTE: This command list all repo affiliated to the user including repository in which the user is a collaborator
+_NOTE: This command list all repo affiliated to the user including repository in which the user is a collaborator_
 
 - `delete`: deletes a repository from users github account
 
@@ -107,10 +108,13 @@ Repo successfully deleted for user sammykingx
 ```
 
 STATUS CODES RETURNED ON ERROR
-	| Status code	| Description |
-	| :---:		| :---	      |
-	| 307		| Temporary redirect |
-	| 404		| Resource not found |
+
+| Status code	| Description |
+| :---:		| :---	      |
+| 307		| Temporary redirect |
+| 403		| Token delete permission error |
+| 404		| Resource not found |
+
 
 - `fork`: Forks a repository
 __options__:
@@ -122,6 +126,19 @@ __options__:
 - `-h help`: shows the help message
 - `-v version`: shows the version number
 
+_example command usage_
+```bash
+$gitops fork -o sammykingx -r gitops_cli
+```
+
+STATUS CODE RETURNED ON ERROR
+
+| Status Code | Description |
+| :---:	      | :---	    |
+| 400	| Bad request |
+| 403	| Forbidden |
+| 404 | Resource not found |
+
 ## Tests
 Tested on the following Ubuntu distro
 - `Ubuntu 22.04`
@@ -131,4 +148,5 @@ Tested on the following Ubuntu distro
 
 Tested with python versions:
 - `3.10.*`
-- `to 3.6.*`
+- `3.8.*`
+- `3.6.*`

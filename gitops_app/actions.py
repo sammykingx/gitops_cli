@@ -24,24 +24,24 @@ END: str = '\033[0m'
 
 try:
     with open(TOKEN_PATH, 'r') as fd:
-        TOKEN = fd.readline().rstrip('\n')
+        TOKEN: str = fd.readline().rstrip('\n')
 
 except FileNotFoundError as err:
-    print('{}could not read your token from {}{}'
-          .format(WARNING, TOKEN_PATH, END))
-
-    sys.exit(1)
+    sys.exit('{}could not read your token from {}{}'
+             .format(WARNING, TOKEN_PATH, END))
 
 
-HEADERS: str = {'Accept': 'application/vnd.github+json',
-                'Authorization': 'Bearer {}'.format(TOKEN),
-                'X-Github-Api-Version': '2022-11-28'}
+HEADERS: Dict = {'Accept': 'application/vnd.github+json',
+                 'Authorization': 'Bearer {}'.format(TOKEN),
+                 'X-Github-Api-Version': '2022-11-28'}
 
 
-def checks(payload) -> PAYLOAD:
+def checks(payload: Dict) -> None:
     """Checks if payload is empty"""
     if payload is None:
         sys.exit('{}no data to execute{}'.format(WARNING, END))
+
+    return
 
 
 def create_repo(payload: PAYLOAD) -> None:
@@ -55,12 +55,12 @@ def create_repo(payload: PAYLOAD) -> None:
                        json=payload,
                        timeout=TIMEOUT)
 
-    except res.Timeout:
-        sys.exit('{}Server took too long to respond{}'
-                 .format(WARNING, END))
-
     except req.ConnectionError:
         sys.exit('{}Could not establish a connection{}'
+                 .format(WARNING, END))
+
+    except res.Timeout:
+        sys.exit('{}Server took too long to respond{}'
                  .format(WARNING, END))
 
     if res.status_code != 201:
@@ -84,12 +84,12 @@ def delete_repo(payload: PAYLOAD) -> None:
     try:
         res = req.delete(url, headers=HEADERS, timeout=TIMEOUT)
 
-    except res.Timeout:
-        sys.exit('{}Server took too long to respond{}'
-                 .format(WARNING, END))
-
     except req.ConnectionError:
         sys.exit('{}Could not establish a connection{}'
+                 .format(WARNING, END))
+
+    except res.Timeout:
+        sys.exit('{}Server took too long to respond{}'
                  .format(WARNING, END))
 
     if res.status_code != 204:
@@ -113,12 +113,12 @@ def fetch_repo(payload: PAYLOAD) -> None:
                       headers=HEADERS,
                       timeout=TIMEOUT)
 
-    except res.Timeout:
-        sys.exit('{}Server took too long to respond{}'
-                 .format(WARNING, END))
-
     except req.ConnectionError:
         sys.exit('{}Could not establish a connection{}'
+                 .format(WARNING, END))
+
+    except res.Timeout:
+        sys.exit('{}Server took too long to respond{}'
                  .format(WARNING, END))
 
     if res.status_code == 401:
@@ -149,13 +149,13 @@ def fork_repo(payload: PAYLOAD) -> None:
     try:
         res = req.post(url, headers=HEADERS, timeout=TIMEOUT)
 
-    except res.Timeout:
-        sys.exit('{}Server took too long to respond{}'
-                 .format(WARNING, END))
-
     except req.ConnectionError:
         sys.exit('{}Could not establish connection with server{}'
                  .format(ERROR, END))
+
+    except res.Timeout:
+        sys.exit('{}Server took too long to respond{}'
+                 .format(WARNING, END))
 
     if res.status_code != 202:
         print('{}Could not perform action: status code {}{}'
@@ -179,12 +179,13 @@ def issues(payload: PAYLOAD) -> None:
     try:
         res = req.get(url, headers=HEADERS, timeout=TIMEOUT)
 
-    except res.Timeout:
-        sys.exit('{}Server took too long to respond{}'
-                 .format(WARNING, END))
     except req.ConnectionError:
         sys.exit('{}Could not establish connection with server{}'
                  .format(ERROR, END))
+
+    except res.Timeout:
+        sys.exit('{}Server took too long to respond{}'
+                 .format(WARNING, END))
 
     if res.status_code != 200:
         print('{}Could not execute action: Status code {}{}'

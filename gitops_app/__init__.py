@@ -11,7 +11,7 @@ parser = ArgumentParser(NAME, USAGE)
 parser.add_argument('-v', '--version',
                     dest='version',
                     action='version',
-                    version='%(prog)s v1.1.0',
+                    version='%(prog)s v1.1.1',
                     help='Display the current version')
 
 sub_parser = parser.add_subparsers(dest='action')

@@ -45,7 +45,7 @@ echo -e "${START}installing dependencies ...${END}"
 
 apt-get install -y python3
 apt-get install -y python3-pip
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 echo -e "${GOOD}dependencies succefully installed${END}"
 
